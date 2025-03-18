@@ -20,7 +20,7 @@ class Account {
   void addTransaction(int amount, string type, int finalBalance);
 
  public:
-  Account(int id, string ownerName, int balance);
+  Account(int id, string ownerName, int balance = 0);
 
   ~Account();
 

@@ -5,12 +5,12 @@
 
 using namespace std;
 
-Account::Account(int id, string ownerName, int balance = 0) {
+Account::Account(int id, string ownerName, int balance) {
   this->id = id;
   this->balance = balance;
   this->ownerName = ownerName;
   this->transactionsCount = 0;
-  this->transactions = new Account::TransactionType[transactionsCount];
+  this->transactions = new TransactionType[transactionsCount];
 }
 
 Account::~Account() {
@@ -26,8 +26,7 @@ Account::Account(const Account& original) {
   this->ownerName = original.ownerName;
   this->transactionsCount = original.transactionsCount;
   // Must create new dynamic array
-  Account::TransactionType* transactions =
-      new Account::TransactionType[transactionsCount];
+  TransactionType* transactions = new TransactionType[transactionsCount];
   // Copy values from original
   for (int i = 0; i < transactionsCount; i++) {
     transactions[i].amount = original.transactions[i].amount;
@@ -41,8 +40,7 @@ Account::Account(const Account& original) {
 // PRIVATE
 void Account::addTransaction(int amount, string type, int finalBalance) {
   // Create new transactions dynamic array
-  Account::TransactionType* newTransactions =
-      new Account::TransactionType[transactionsCount + 1];
+  TransactionType* newTransactions = new TransactionType[transactionsCount + 1];
 
   // Copy old transactions
   for (int i = 0; i < transactionsCount; i++) {
@@ -95,6 +93,7 @@ void Account::withdraw(int amount) {
     addTransaction(amount, "withdraw", balance);
   } else {
     cout << "Insuficient balance" << endl;
+    addTransaction(0, "failed withdraw", balance);
   }
 }
 

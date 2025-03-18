@@ -10,6 +10,7 @@ int main() {
     SavingsAccount acc1(1, "Luigi", 500);
     acc1.withdraw(40);
     acc1.withdraw(40);
+    acc1.deposit(200);
     acc1.withdraw(40);
     acc1.withdraw(40);
     acc1.getDetails();

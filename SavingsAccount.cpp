@@ -6,6 +6,8 @@
 
 using namespace std;
 
+// TODO => interests calculator
+
 SavingsAccount::SavingsAccount(int id, string ownerName, int balance)
     : Account(id, ownerName, balance), withdrawalCount(0) {
   if (balance < minimumBalance) {

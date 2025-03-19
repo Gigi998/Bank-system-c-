@@ -1,31 +1,39 @@
 #include "./include/SavingsAccount.h"
 
+#include <chrono>
 #include <iostream>
-#include <stdexcept>
 #include <string>
+#include <thread>
 
 using namespace std;
 
-// TODO => interests calculator
-
-SavingsAccount::SavingsAccount(int id, string ownerName, int balance)
+SavingsAccount::SavingsAccount(int id, string ownerName, double balance)
     : Account(id, ownerName, balance), withdrawalCount(0) {
   if (balance < minimumBalance) {
     throw invalid_argument(
         "Error: Savings account balance must be at least 100");
-  }
+  };
+  // Initialize thread, it takes pointer function and instance object
+  interestThread = thread(&SavingsAccount::addInterests, this);
 };
 
-void SavingsAccount::withdraw(int amount) {
+SavingsAccount::~SavingsAccount() {
+  // Ensures that thread is finished before destructor call
+  interestThread.join();
+}
+
+void SavingsAccount::withdraw(double amount) {
   // Check number of withdrawals
   if (withdrawalCount >= withdrawalLimit) {
     cout << "You exceded withdrawal limit" << endl;
+    addTransaction(0, "Failed, withdraw limit exceded", getBalance());
     return;
   }
 
   // Check current balance
   if (getBalance() - amount <= minimumBalance) {
     cout << "You can not go below minimum balance" << endl;
+    addTransaction(0, "Failed, minimum balance", getBalance());
     return;
   }
 
@@ -34,4 +42,15 @@ void SavingsAccount::withdraw(int amount) {
 
   // Increase withdrawal count, after successfull transaction
   withdrawalCount++;
+}
+
+// PRIVATE
+void SavingsAccount::addInterests() {
+  while (true) {
+    // Add interest every 10 seconds, simulates monthly/yearly yield
+    this_thread::sleep_for(chrono::seconds(10));
+
+    balance += balance * interest;
+    addTransaction(balance * interest, "Interests", getBalance());
+  }
 }

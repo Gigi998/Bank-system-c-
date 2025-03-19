@@ -1,3 +1,4 @@
+#include <atomic>
 #include <iostream>
 #include <string>
 
@@ -6,31 +7,32 @@ using namespace std;
 class Account {
  private:
   struct TransactionType {
-    int amount;
+    double amount;
     string type;
-    int finalBalance;
+    double finalBalance;
   };
 
   int id;
-  int balance;
   string ownerName;
   int transactionsCount;
   TransactionType* transactions;
 
-  void addTransaction(int amount, string type, int finalBalance);
+ protected:
+  double balance;
+  void addTransaction(double amount, string type, double finalBalance);
 
  public:
-  Account(int id, string ownerName, int balance = 0);
+  Account(int id, string ownerName, double balance = 0);
 
   ~Account();
 
   Account(const Account& original);
 
-  void deposit(int amount);
+  void deposit(double amount);
 
-  void withdraw(int amount);
+  void withdraw(double amount);
 
   void getDetails();
 
-  int getBalance();
+  double getBalance();
 };

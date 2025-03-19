@@ -15,6 +15,9 @@ class SavingsAccount : public Account {
 
   // Interest thread
   thread interestThread;
+  // Stop thread, must have a way to stop the thread otherwise it will run
+  // forever
+  bool stopThread;
 
   void addInterests();
 

@@ -13,13 +13,18 @@ SavingsAccount::SavingsAccount(int id, string ownerName, double balance)
     throw invalid_argument(
         "Error: Savings account balance must be at least 100");
   };
+  stopThread = false;
   // Initialize thread, it takes pointer function and instance object
   interestThread = thread(&SavingsAccount::addInterests, this);
 };
 
 SavingsAccount::~SavingsAccount() {
+  // Stop the thread running condition
+  stopThread = true;
   // Ensures that thread is finished before destructor call
-  interestThread.join();
+  if (interestThread.joinable()) {
+    interestThread.join();
+  }
 }
 
 void SavingsAccount::withdraw(double amount) {
@@ -46,9 +51,9 @@ void SavingsAccount::withdraw(double amount) {
 
 // PRIVATE
 void SavingsAccount::addInterests() {
-  while (true) {
-    // Add interest every 10 seconds, simulates monthly/yearly yield
-    this_thread::sleep_for(chrono::seconds(10));
+  while (!stopThread) {
+    // Add interest every 5 seconds, simulates monthly/yearly yield
+    this_thread::sleep_for(chrono::seconds(5));
 
     balance += balance * interest;
     addTransaction(balance * interest, "Interests", getBalance());

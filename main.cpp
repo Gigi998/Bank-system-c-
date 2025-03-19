@@ -5,7 +5,16 @@
 
 using namespace std;
 
-void menu() { cout << "Type your choice"; }
+void menu() {
+  cout << "\n📚 Bank Management System 📚\n";
+  cout << "--------------------------------\n";
+  cout << "1️⃣ Get balance\n";
+  cout << "2️⃣ Deposit\n";
+  cout << "3️⃣ Get details/trasactions\n";
+  cout << "4️⃣ Exit\n";
+  cout << "--------------------------------\n";
+  cout << "Choose an option: ";
+}
 
 int main() {
   // try {
@@ -16,13 +25,15 @@ int main() {
   //   cerr << e.what() << endl;
   // };
 
-  while (true) {
+  bool isRunning = true;
+
+  while (isRunning) {
     menu();
 
     int choice = 0;
 
     cin >> choice;
-    cin.ignore();
+    // cin.ignore();
 
     switch (choice) {
       case 1:
@@ -36,6 +47,10 @@ int main() {
       case 3:
         acc1.getDetails();
         acc2.getDetails();
+        break;
+      case 4:
+        cout << "Exiting" << endl;
+        isRunning = false;
         break;
       default:
         break;

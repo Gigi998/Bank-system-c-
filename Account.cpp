@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Account::Account(int id, string ownerName, int balance) {
+Account::Account(int id, string ownerName, double balance) {
   this->id = id;
   this->balance = balance;
   this->ownerName = ownerName;
@@ -26,19 +26,19 @@ Account::Account(const Account& original) {
   this->ownerName = original.ownerName;
   this->transactionsCount = original.transactionsCount;
   // Must create new dynamic array
-  TransactionType* transactions = new TransactionType[transactionsCount];
+  TransactionType* newTransactions = new TransactionType[transactionsCount];
   // Copy values from original
   for (int i = 0; i < transactionsCount; i++) {
-    transactions[i].amount = original.transactions[i].amount;
-    transactions[i].type = original.transactions[i].type;
-    transactions[i].finalBalance = original.transactions[i].finalBalance;
+    newTransactions[i].amount = original.transactions[i].amount;
+    newTransactions[i].type = original.transactions[i].type;
+    newTransactions[i].finalBalance = original.transactions[i].finalBalance;
   }
 
-  this->transactions = transactions;
+  this->transactions = newTransactions;
 }
 
 // PRIVATE
-void Account::addTransaction(int amount, string type, int finalBalance) {
+void Account::addTransaction(double amount, string type, double finalBalance) {
   // Create new transactions dynamic array
   TransactionType* newTransactions = new TransactionType[transactionsCount + 1];
 
@@ -51,8 +51,7 @@ void Account::addTransaction(int amount, string type, int finalBalance) {
 
   // Add newly created trans
   newTransactions[transactionsCount].amount = amount;
-  newTransactions[transactionsCount].type =
-      type == "deposit" ? "deposit" : "withdraw";
+  newTransactions[transactionsCount].type = type;
   newTransactions[transactionsCount].finalBalance = finalBalance;
 
   // Dellocate memory
@@ -81,20 +80,20 @@ void Account::getDetails() {
   cout << "--------------" << endl;
 }
 
-void Account::deposit(int amount) {
+void Account::deposit(double amount) {
   this->balance += amount;
 
-  addTransaction(amount, "deposit", balance);
+  addTransaction(amount, "Deposit", balance);
 }
 
-void Account::withdraw(int amount) {
+void Account::withdraw(double amount) {
   if (this->balance > amount) {
     this->balance -= amount;
-    addTransaction(amount, "withdraw", balance);
+    addTransaction(amount, "Withdraw", balance);
   } else {
     cout << "Insuficient balance" << endl;
     addTransaction(0, "failed withdraw", balance);
   }
 }
 
-int Account::getBalance() { return balance; }
+double Account::getBalance() { return balance; }

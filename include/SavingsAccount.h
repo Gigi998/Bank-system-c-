@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <thread>
 
 #include "./Account.h"
 
@@ -12,8 +13,15 @@ class SavingsAccount : public Account {
   static constexpr double interest = 0.05;
   int withdrawalCount;
 
- public:
-  SavingsAccount(int id, string ownerName, int balance);
+  // Interest thread
+  thread interestThread;
 
-  void withdraw(int amount);
+  void addInterests();
+
+ public:
+  SavingsAccount(int id, string ownerName, double balance);
+
+  ~SavingsAccount();
+
+  void withdraw(double amount);
 };

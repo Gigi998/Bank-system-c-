@@ -10,13 +10,14 @@ Account::Account(int id, string ownerName, double balance) {
 }
 
 Account::~Account() {
-  cout << "Destructor" << endl;
+  cout << "Account Destructor" << endl;
   delete[] transactions;
   transactions = nullptr;
 }
 
 // Copy constructor
 Account::Account(const Account& original) {
+  cout << "copy" << endl;
   this->id = original.id;
   this->balance = original.balance;
   this->ownerName = original.ownerName;
@@ -88,3 +89,5 @@ void Account::withdraw(double amount) {
 }
 
 double Account::getBalance() { return balance; }
+
+int Account::getId() { return id; }

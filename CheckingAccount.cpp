@@ -16,6 +16,6 @@ void CheckingAccount::withdraw(double amount) {
 }
 
 void CheckingAccount::getDetails() {
-  cout << "Checking Account" << endl;
+  cout << "Type: Checking Account" << endl;
   Account::getDetails();
 }

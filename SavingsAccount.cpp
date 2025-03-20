@@ -5,10 +5,6 @@
 
 SavingsAccount::SavingsAccount(int id, string ownerName, double balance)
     : Account(id, ownerName, balance) {
-  if (balance < minimumBalance) {
-    throw invalid_argument(
-        "Error: Savings account balance must be at least 100");
-  };
   withdrawalCount = 0;
   stopThread = false;
   // Initialize thread, it takes pointer function and instance object
@@ -16,12 +12,16 @@ SavingsAccount::SavingsAccount(int id, string ownerName, double balance)
 };
 
 SavingsAccount::~SavingsAccount() {
+  cout << "Savings destructor" << endl;
   // Stop the thread running condition
   stopThread = true;
   // Ensures that thread is finished before destructor call
   if (interestThread.joinable()) {
     interestThread.join();
   }
+
+  // Must call destructor from base class
+  Account::~Account();
 }
 
 void SavingsAccount::withdraw(double amount) {
@@ -58,6 +58,6 @@ void SavingsAccount::addInterests() {
 }
 
 void SavingsAccount::getDetails() {
-  cout << "Savings Account" << endl;
+  cout << "Type: Savings Account" << endl;
   Account::getDetails();
 }

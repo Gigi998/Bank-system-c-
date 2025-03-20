@@ -27,7 +27,8 @@ class Account {
  public:
   Account(int id, string ownerName, double balance = 0);
 
-  ~Account();
+  // Must be virtual so the derived class can override it
+  virtual ~Account();
 
   Account(const Account& original);
 
@@ -36,6 +37,8 @@ class Account {
   virtual void getDetails();
 
   double getBalance();
+
+  int getId();
 };
 
 #endif

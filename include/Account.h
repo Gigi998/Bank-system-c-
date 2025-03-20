@@ -1,4 +1,6 @@
-#include <atomic>
+#ifndef ACCOUNT_H
+#define ACCOUNT_H
+
 #include <iostream>
 #include <string>
 
@@ -20,6 +22,7 @@ class Account {
  protected:
   double balance;
   void addTransaction(double amount, string type, double finalBalance);
+  void withdraw(double amount);
 
  public:
   Account(int id, string ownerName, double balance = 0);
@@ -30,9 +33,9 @@ class Account {
 
   void deposit(double amount);
 
-  void withdraw(double amount);
-
-  void getDetails();
+  virtual void getDetails();
 
   double getBalance();
 };
+
+#endif

@@ -1,10 +1,9 @@
-#include <iostream>
-#include <string>
+#ifndef SAVINGSACCOUNT_H
+#define SAVINGSACCOUNT_H
+
 #include <thread>
 
 #include "./Account.h"
-
-using namespace std;
 
 class SavingsAccount : public Account {
  private:
@@ -27,4 +26,8 @@ class SavingsAccount : public Account {
   ~SavingsAccount();
 
   void withdraw(double amount);
+
+  void getDetails() override;
 };
+
+#endif

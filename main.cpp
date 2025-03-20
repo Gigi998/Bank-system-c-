@@ -1,12 +1,13 @@
 #include <iostream>
 #include <stdexcept>
 
+#include "./include/CheckingAccount.h"
 #include "./include/SavingsAccount.h"
 
 using namespace std;
 
 void menu() {
-  cout << "\n📚 Bank Management System 📚\n";
+  cout << "\n Bank Management System \n";
   cout << "--------------------------------\n";
   cout << "1️⃣ Get balance\n";
   cout << "2️⃣ Deposit\n";
@@ -21,9 +22,14 @@ int main() {
   // Handle try catch in the controler class
   SavingsAccount acc1(1, "Luigi", 200);
   SavingsAccount acc2(2, "Blanka", 300);
+  CheckingAccount acc3(3, "Luigi", 300);
   // } catch (const invalid_argument& e) {
   //   cerr << e.what() << endl;
   // };
+
+  acc3.withdraw(300);
+  acc3.withdraw(300);
+  acc3.withdraw(300);
 
   bool isRunning = true;
 
@@ -39,14 +45,17 @@ int main() {
       case 1:
         cout << acc1.getBalance() << endl;
         cout << acc2.getBalance() << endl;
+        cout << acc3.getBalance() << endl;
         break;
       case 2:
         acc1.deposit(100);
         acc2.deposit(100);
+        acc3.deposit(100);
         break;
       case 3:
         acc1.getDetails();
         acc2.getDetails();
+        acc3.getDetails();
         break;
       case 4:
         cout << "Exiting" << endl;

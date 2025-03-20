@@ -1,18 +1,15 @@
 #include "./include/SavingsAccount.h"
 
 #include <chrono>
-#include <iostream>
-#include <string>
 #include <thread>
 
-using namespace std;
-
 SavingsAccount::SavingsAccount(int id, string ownerName, double balance)
-    : Account(id, ownerName, balance), withdrawalCount(0) {
+    : Account(id, ownerName, balance) {
   if (balance < minimumBalance) {
     throw invalid_argument(
         "Error: Savings account balance must be at least 100");
   };
+  withdrawalCount = 0;
   stopThread = false;
   // Initialize thread, it takes pointer function and instance object
   interestThread = thread(&SavingsAccount::addInterests, this);
@@ -58,4 +55,9 @@ void SavingsAccount::addInterests() {
     balance += balance * interest;
     addTransaction(balance * interest, "Interests", getBalance());
   }
+}
+
+void SavingsAccount::getDetails() {
+  cout << "Savings Account" << endl;
+  Account::getDetails();
 }

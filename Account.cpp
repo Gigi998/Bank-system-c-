@@ -1,16 +1,12 @@
 #include "./include/Account.h"
 
-#include <iostream>
-#include <string>
-
-using namespace std;
-
 Account::Account(int id, string ownerName, double balance) {
   this->id = id;
   this->balance = balance;
   this->ownerName = ownerName;
   this->transactionsCount = 0;
   this->transactions = new TransactionType[transactionsCount];
+  addTransaction(this->balance, "Account opened", getBalance());
 }
 
 Account::~Account() {
@@ -87,13 +83,8 @@ void Account::deposit(double amount) {
 }
 
 void Account::withdraw(double amount) {
-  if (this->balance > amount) {
-    this->balance -= amount;
-    addTransaction(amount, "Withdraw", balance);
-  } else {
-    cout << "Insuficient balance" << endl;
-    addTransaction(0, "failed withdraw", balance);
-  }
+  this->balance -= amount;
+  addTransaction(amount, "Withdraw", balance);
 }
 
 double Account::getBalance() { return balance; }

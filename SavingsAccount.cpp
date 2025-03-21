@@ -18,9 +18,6 @@ SavingsAccount::~SavingsAccount() {
   if (interestThread.joinable()) {
     interestThread.join();
   }
-
-  // Must call destructor from base class
-  Account::~Account();
 }
 
 void SavingsAccount::withdraw(double amount) {

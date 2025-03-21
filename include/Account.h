@@ -30,7 +30,7 @@ class Account {
 
   virtual void withdraw(double amount);
 
-  // Must be virtual so the derived class can override it
+  // Must be virtual so it get's trigger when derived class is destroyed
   virtual ~Account();
 
   Account(const Account& original);

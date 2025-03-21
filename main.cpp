@@ -32,7 +32,6 @@ int main() {
     int choice = 0;
 
     cin >> choice;
-    cin.ignore();
 
     int balance;
     int accountNumber;

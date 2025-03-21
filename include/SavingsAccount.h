@@ -24,7 +24,7 @@ class SavingsAccount : public Account {
 
   SavingsAccount(int id, string ownerName, double balance);
 
-  ~SavingsAccount() override;
+  ~SavingsAccount();
 
   void withdraw(double amount) override;
 

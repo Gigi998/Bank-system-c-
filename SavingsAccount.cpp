@@ -1,7 +1,6 @@
 #include "./include/SavingsAccount.h"
 
 #include <chrono>
-#include <thread>
 
 SavingsAccount::SavingsAccount(int id, string ownerName, double balance)
     : Account(id, ownerName, balance) {
@@ -28,14 +27,14 @@ void SavingsAccount::withdraw(double amount) {
   // Check number of withdrawals
   if (withdrawalCount >= withdrawalLimit) {
     cout << "You exceded withdrawal limit" << endl;
-    addTransaction(0, "Failed, withdraw limit exceded", getBalance());
+    addTransaction(amount, "Failed, withdraw limit exceded", getBalance());
     return;
   }
 
   // Check current balance
   if (getBalance() - amount <= minimumBalance) {
     cout << "You can not go below minimum balance" << endl;
-    addTransaction(0, "Failed, minimum balance", getBalance());
+    addTransaction(amount, "Failed, minimum balance", getBalance());
     return;
   }
 

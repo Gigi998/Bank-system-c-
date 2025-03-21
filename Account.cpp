@@ -64,12 +64,12 @@ void Account::addTransaction(double amount, string type, double finalBalance) {
 void Account::getDetails() {
   cout << "Account number is: " << id << ", owner is: " << ownerName << endl;
 
-  cout << "Transactions" << endl;
+  cout << "TRANSACTIONS" << endl;
 
   cout << "--------------" << endl;
 
   for (int i = 0; i < transactionsCount; i++) {
-    cout << "Type: " << (*(transactions + i)).type
+    cout << (*(transactions + i)).type
          << ", Amount: " << (*(transactions + i)).amount
          << ", Final Balance: " << (*(transactions + i)).finalBalance << endl;
   }
@@ -79,12 +79,13 @@ void Account::getDetails() {
 
 void Account::deposit(double amount) {
   this->balance += amount;
-
+  cout << "Deposit successfull" << endl;
   addTransaction(amount, "Deposit", balance);
 }
 
 void Account::withdraw(double amount) {
   this->balance -= amount;
+  cout << "Withdraw successfull" << endl;
   addTransaction(amount, "Withdraw", balance);
 }
 

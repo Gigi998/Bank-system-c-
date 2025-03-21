@@ -7,13 +7,13 @@
 
 #include "./Account.h"
 
-using namespace std;
-
 class User {
  private:
   int id;
   string name;
   vector<Account*> accounts;
+
+  vector<Account*>::iterator findAccount(int accountId);
 
  public:
   User(int id, string name);
@@ -26,9 +26,13 @@ class User {
 
   void addSavingsAccount(int balance);
 
-  // void removeAccount(int accountId);
+  void removeAccount(int accountId);
 
   string getName();
+
+  void deposit(int accountId, int amount);
+
+  void withdraw(int accountId, int amount);
 };
 
 #endif

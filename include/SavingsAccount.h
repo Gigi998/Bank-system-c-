@@ -26,7 +26,7 @@ class SavingsAccount : public Account {
 
   ~SavingsAccount() override;
 
-  void withdraw(double amount);
+  void withdraw(double amount) override;
 
   void getDetails() override;
 };

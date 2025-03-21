@@ -22,10 +22,13 @@ class Account {
  protected:
   double balance;
   void addTransaction(double amount, string type, double finalBalance);
-  void withdraw(double amount);
 
  public:
   Account(int id, string ownerName, double balance = 0);
+
+  virtual void getDetails();
+
+  virtual void withdraw(double amount);
 
   // Must be virtual so the derived class can override it
   virtual ~Account();
@@ -33,8 +36,6 @@ class Account {
   Account(const Account& original);
 
   void deposit(double amount);
-
-  virtual void getDetails();
 
   double getBalance();
 

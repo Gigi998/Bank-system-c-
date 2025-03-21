@@ -3,33 +3,26 @@
 
 #include "./include/CheckingAccount.h"
 #include "./include/SavingsAccount.h"
+#include "./include/User.h"
 
 using namespace std;
 
 void menu() {
   cout << "\n Bank Management System \n";
   cout << "--------------------------------\n";
-  cout << "1️⃣ Get balance\n";
-  cout << "2️⃣ Deposit\n";
-  cout << "3️⃣ Get details/trasactions\n";
-  cout << "4️⃣ Exit\n";
+  cout << "1️⃣ Get details/transactions\n";
+  cout << "2️⃣ Add Savings account\n";
+  cout << "3 Add Checking account\n";
+  cout << "4 Remove account\n";
+  cout << "5 Deposit\n";
+  cout << "6 Withdraw\n";
+  cout << "7 Exit\n";
   cout << "--------------------------------\n";
   cout << "Choose an option: ";
 }
 
 int main() {
-  // try {
-  // Handle try catch in the controler class
-  SavingsAccount acc1(1, "Luigi", 200);
-  SavingsAccount acc2(2, "Blanka", 300);
-  CheckingAccount acc3(3, "Luigi", 300);
-  // } catch (const invalid_argument& e) {
-  //   cerr << e.what() << endl;
-  // };
-
-  acc3.withdraw(300);
-  acc3.withdraw(300);
-  acc3.withdraw(300);
+  User user1(1, "Luigi");
 
   bool isRunning = true;
 
@@ -39,25 +32,58 @@ int main() {
     int choice = 0;
 
     cin >> choice;
-    // cin.ignore();
+    cin.ignore();
+
+    int balance;
+    int accountNumber;
+    int transactionAmount;
 
     switch (choice) {
       case 1:
-        cout << acc1.getBalance() << endl;
-        cout << acc2.getBalance() << endl;
-        cout << acc3.getBalance() << endl;
+        user1.getDetails();
         break;
       case 2:
-        acc1.deposit(100);
-        acc2.deposit(100);
-        acc3.deposit(100);
+        cout << "Savings account balance: ";
+        cin >> balance;
+        while (SavingsAccount::minimumBalance > balance) {
+          cout << "Creation failed, minimum required balance is 100" << endl;
+          cout << "Savings account balance: ";
+          cin >> balance;
+        }
+        user1.addSavingsAccount(balance);
         break;
       case 3:
-        acc1.getDetails();
-        acc2.getDetails();
-        acc3.getDetails();
+        cout << "Checking account balance: ";
+        cin >> balance;
+        while (balance < 0) {
+          cout << "Creation failed, minimum required balance is 0, can't go "
+                  "below"
+               << endl;
+          cout << "Checking account balance: ";
+          cin >> balance;
+        }
+        user1.addCheckingAccount(balance);
         break;
       case 4:
+        cout << "Account Id: ";
+        cin >> accountNumber;
+        user1.removeAccount(accountNumber);
+        break;
+      case 5:
+        cout << "Accout Id: ";
+        cin >> accountNumber;
+        cout << "Deposit amount:";
+        cin >> transactionAmount;
+        user1.deposit(accountNumber, transactionAmount);
+        break;
+      case 6:
+        cout << "Account Id: ";
+        cin >> accountNumber;
+        cout << "Withdraw amount: ";
+        cin >> transactionAmount;
+        user1.withdraw(accountNumber, transactionAmount);
+        break;
+      case 7:
         cout << "Exiting" << endl;
         isRunning = false;
         break;

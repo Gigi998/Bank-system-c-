@@ -10,7 +10,7 @@ class CheckingAccount : public Account {
  public:
   CheckingAccount(int id, string ownerName, double balance);
 
-  void withdraw(double amount);
+  void withdraw(double amount) override;
 
   void getDetails() override;
 };

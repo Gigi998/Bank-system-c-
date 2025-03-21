@@ -1,9 +1,7 @@
 #include "./include/CheckingAccount.h"
 
 CheckingAccount::CheckingAccount(int id, string ownerName, double balance)
-    : Account(id, ownerName, balance) {
-
-      };
+    : Account(id, ownerName, balance) {};
 
 void CheckingAccount::withdraw(double amount) {
   if (balance + overdraftLimit < amount) {
@@ -16,6 +14,6 @@ void CheckingAccount::withdraw(double amount) {
 }
 
 void CheckingAccount::getDetails() {
-  cout << "Checking Account" << endl;
+  cout << "Type: Checking Account" << endl;
   Account::getDetails();
 }

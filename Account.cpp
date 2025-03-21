@@ -10,13 +10,14 @@ Account::Account(int id, string ownerName, double balance) {
 }
 
 Account::~Account() {
-  cout << "Destructor" << endl;
+  cout << "Account Destructor" << endl;
   delete[] transactions;
   transactions = nullptr;
 }
 
 // Copy constructor
 Account::Account(const Account& original) {
+  cout << "copy" << endl;
   this->id = original.id;
   this->balance = original.balance;
   this->ownerName = original.ownerName;
@@ -63,12 +64,12 @@ void Account::addTransaction(double amount, string type, double finalBalance) {
 void Account::getDetails() {
   cout << "Account number is: " << id << ", owner is: " << ownerName << endl;
 
-  cout << "Transactions" << endl;
+  cout << "TRANSACTIONS" << endl;
 
   cout << "--------------" << endl;
 
   for (int i = 0; i < transactionsCount; i++) {
-    cout << "Type: " << (*(transactions + i)).type
+    cout << (*(transactions + i)).type
          << ", Amount: " << (*(transactions + i)).amount
          << ", Final Balance: " << (*(transactions + i)).finalBalance << endl;
   }
@@ -78,13 +79,16 @@ void Account::getDetails() {
 
 void Account::deposit(double amount) {
   this->balance += amount;
-
+  cout << "Deposit successfull" << endl;
   addTransaction(amount, "Deposit", balance);
 }
 
 void Account::withdraw(double amount) {
   this->balance -= amount;
+  cout << "Withdraw successfull" << endl;
   addTransaction(amount, "Withdraw", balance);
 }
 
 double Account::getBalance() { return balance; }
+
+int Account::getId() { return id; }

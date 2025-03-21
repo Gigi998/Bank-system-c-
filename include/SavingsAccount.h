@@ -7,9 +7,6 @@
 
 class SavingsAccount : public Account {
  private:
-  static constexpr int withdrawalLimit = 3;
-  static constexpr int minimumBalance = 100;
-  static constexpr double interest = 0.05;
   int withdrawalCount;
 
   // Interest thread
@@ -21,11 +18,15 @@ class SavingsAccount : public Account {
   void addInterests();
 
  public:
+  static constexpr int withdrawalLimit = 3;
+  static constexpr double interest = 0.05;
+  static constexpr int minimumBalance = 100;
+
   SavingsAccount(int id, string ownerName, double balance);
 
-  ~SavingsAccount();
+  ~SavingsAccount() override;
 
-  void withdraw(double amount);
+  void withdraw(double amount) override;
 
   void getDetails() override;
 };

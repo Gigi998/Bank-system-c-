@@ -47,9 +47,8 @@ void User::addSavingsAccount(int balance) {
 }
 
 vector<Account*>::iterator User::findAccount(int accountId) {
-  auto it =
-      find_if(accounts.begin(), accounts.end(),
-              [accountId](Account* acc) { return acc->getId() == accountId; });
+  auto it = find_if(accounts.begin(), accounts.end(),
+                    [&](Account* acc) { return acc->getId() == accountId; });
 
   return it;
 }

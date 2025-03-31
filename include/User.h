@@ -9,6 +9,7 @@ class User {
  private:
   int id;
   string name;
+  // holds accounts pointers
   vector<Account*> accounts;
 
   vector<Account*>::iterator findAccount(int accountId);

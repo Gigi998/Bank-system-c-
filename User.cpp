@@ -46,50 +46,48 @@ void User::addSavingsAccount(int balance) {
   cout << "Account added\n";
 }
 
-vector<Account*>::iterator User::findAccount(int accountId) {
-  auto it =
-      find_if(accounts.begin(), accounts.end(),
-              [&accountId](Account* acc) { return acc->getId() == accountId; });
+Account* User::findAccount(int accountId) {
+  for (Account* account : accounts) {
+    if (account->getId() == accountId) {
+      return account;
+    }
+  }
 
-  return it;
+  return nullptr;
 }
 
 void User::removeAccount(int accountId) {
-  auto it = findAccount(accountId);
+  Account* accountPtr = findAccount(accountId);
 
-  if (it != accounts.end()) {
-    // Delete allocated memory(actual object), but vector still has pointer!!
-    delete *it;
-    // Delete the pointer from the vector
-    accounts.erase(it);
-    cout << "Account removed" << endl;
-  } else {
+  if (accountPtr == nullptr) {
     cout << "Account not found" << endl;
+  } else {
+    delete accountPtr;
+    accounts.erase(remove(accounts.begin(), accounts.end(), accountPtr),
+                   accounts.end());
   }
 }
 
-string User::getName() { return name; }
-
 void User::deposit(int accountId, int amount) {
-  // Iterator pointing to a pointer account(double pointer), to access values
-  // we must dereference it twice
-  auto it = findAccount(accountId);
+  Account* accountPtr = findAccount(accountId);
 
-  if (it != accounts.end()) {
-    // Double pointer
-    (*it)->deposit(amount);
-  } else {
+  if (!accountPtr) {
     cout << "Account not found" << endl;
+    return;
   }
+
+  accountPtr->deposit(amount);
 }
 
 void User::withdraw(int accountId, int amount) {
-  auto it = findAccount(accountId);
+  Account* accountPtr = findAccount(accountId);
 
-  if (it != accounts.end()) {
-    // Double pointer
-    (*it)->withdraw(amount);
-  } else {
+  if (!accountPtr) {
     cout << "Account not found" << endl;
+    return;
   }
+
+  accountPtr->withdraw(amount);
 }
+
+string User::getName() { return name; }

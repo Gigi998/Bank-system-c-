@@ -12,7 +12,7 @@ class User {
   // holds accounts pointers
   vector<Account*> accounts;
 
-  vector<Account*>::iterator findAccount(int accountId);
+  Account* findAccount(int accountId);
 
  public:
   User(int id, string name);

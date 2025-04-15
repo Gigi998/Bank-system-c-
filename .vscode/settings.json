@@ -46,6 +46,7 @@
     "streambuf": "cpp",
     "typeinfo": "cpp",
     "chrono": "cpp",
-    "thread": "cpp"
+    "thread": "cpp",
+    "fstream": "cpp"
   }
 }

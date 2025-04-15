@@ -1,6 +1,8 @@
 #include "./include/User.h"
 
 #include <algorithm>
+#include <fstream>
+#include <sstream>
 
 #include "./include/CheckingAccount.h"
 #include "./include/SavingsAccount.h"
@@ -8,10 +10,15 @@
 User::User(int id, string name) {
   this->id = id;
   this->name = name;
+
+  loadAccounts();
 };
 
 User::~User() {
   cout << "User destruct" << endl;
+
+  saveAccounts();
+
   for (auto acc : accounts) {
     // Deleting one by one, becaouse it is separetely allocated object
     delete acc;
@@ -91,3 +98,57 @@ void User::withdraw(int accountId, int amount) {
 }
 
 string User::getName() { return name; }
+
+void User::saveAccounts() {
+  ofstream Accounts("accounts-" + getName() + ".txt");
+  for (Account* accountPtr : accounts) {
+    accountPtr->save(Accounts);
+  }
+
+  Accounts.close();
+}
+
+void User::loadAccounts() {
+  string accountsText;
+  ifstream Accounts("accounts-" + getName() + ".txt");
+
+  while (getline(Accounts, accountsText)) {
+    // Get balance line
+    if (accountsText.rfind("Balance", 0) == 0) {
+      size_t start = accountsText.find(":") + 1;
+
+      std::string balStr = accountsText.substr(start);
+
+      double balance = stod(balStr);
+
+      addCheckingAccount(balance);
+
+      getline(Accounts, accountsText);
+      if (accountsText == "Transactions") {
+        while (getline(Accounts, accountsText)) {
+          // Find "Amount:"
+          size_t amountPos = accountsText.find("Amount:");
+          size_t amountEnd = accountsText.find(",", amountPos);
+          std::string amountStr =
+              accountsText.substr(amountPos + 7, amountEnd - (amountPos + 7));
+          double amount = std::stod(amountStr);
+
+          size_t descStart = amountEnd + 1;
+          size_t finalPos = accountsText.find("Final Balance:");
+          std::string desc =
+              accountsText.substr(descStart, finalPos - descStart);
+          desc.erase(0, desc.find_first_not_of(" ,"));
+          desc.erase(desc.find_last_not_of(" ,") + 1);
+          string description = desc;
+
+          // Extract final balance
+          std::string finalStr = accountsText.substr(finalPos + 14);
+          finalStr.erase(0, finalStr.find_first_not_of(" "));
+          double finalBalance = std::stod(finalStr);
+        }
+      }
+    }
+  }
+
+  Accounts.close();
+}

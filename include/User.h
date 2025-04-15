@@ -32,6 +32,10 @@ class User {
   void deposit(int accountId, int amount);
 
   void withdraw(int accountId, int amount);
+
+  void saveAccounts();
+
+  void loadAccounts();
 };
 
 #endif

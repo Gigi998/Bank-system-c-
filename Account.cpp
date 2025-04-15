@@ -92,3 +92,15 @@ void Account::withdraw(double amount) {
 double Account::getBalance() { return balance; }
 
 int Account::getId() { return id; }
+
+void Account::save(ostream& out) {
+  out << "Balance: " << getBalance() << endl;
+
+  out << "Transactions" << endl;
+
+  for (int i = 0; i < transactionsCount; i++) {
+    out << "Amount: " << (*(transactions + i)).amount
+        << ", " + (*(transactions + i)).type
+        << ", Final Balance: " << (*(transactions + i)).finalBalance << endl;
+  }
+}

@@ -24,6 +24,8 @@ class Account {
   void addTransaction(double amount, string type, double finalBalance);
 
  public:
+  void save(ostream& out);
+
   Account(int id, string ownerName, double balance = 0);
 
   virtual void getDetails();

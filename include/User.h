@@ -14,6 +14,10 @@ class User {
 
   Account* findAccount(int accountId);
 
+  void saveAccounts();
+
+  void loadAccounts();
+
  public:
   User(int id, string name);
 
@@ -27,15 +31,11 @@ class User {
 
   void removeAccount(int accountId);
 
-  string getName();
-
   void deposit(int accountId, int amount);
 
   void withdraw(int accountId, int amount);
 
-  void saveAccounts();
-
-  void loadAccounts();
+  string getName();
 };
 
 #endif

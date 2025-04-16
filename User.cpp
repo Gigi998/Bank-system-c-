@@ -5,33 +5,8 @@
 #include <sstream>
 
 #include "./include/CheckingAccount.h"
+#include "./include/Helpers.h"
 #include "./include/SavingsAccount.h"
-
-// Trim helper
-std::string trim(const std::string& str) {
-  size_t first = str.find_first_not_of(" \t\r\n");
-  size_t last = str.find_last_not_of(" \t\r\n");
-  return (first == std::string::npos) ? ""
-                                      : str.substr(first, (last - first + 1));
-}
-
-// Parse one transaction line
-Account::TransactionType parseTransactionLine(const std::string& line) {
-  Account::TransactionType t;
-  size_t amountPos = line.find("Amount:");
-  size_t amountEnd = line.find(",", amountPos);
-  string amountStr = line.substr(amountPos + 7, amountEnd - (amountPos + 7));
-  t.amount = std::stod(trim(amountStr));
-
-  size_t finalPos = line.find("Final Balance:");
-  string desc = line.substr(amountEnd + 1, finalPos - (amountEnd + 1));
-  t.type = trim(desc);
-
-  std::string finalStr = line.substr(finalPos + 14);
-  t.finalBalance = std::stod(trim(finalStr));
-
-  return t;
-}
 
 User::User(int id, string name) {
   this->id = id;
@@ -69,13 +44,17 @@ void User::getDetails() {
 
 void User::addCheckingAccount(int balance) {
   // Manualy allocate memory, to persist after function is finished
-  accounts.push_back(new CheckingAccount(accounts.size() + 1, name, balance));
+  Account* account = new CheckingAccount(accounts.size() + 1, name, balance);
+  account->addTransaction(balance, "Account opened", balance);
+  accounts.push_back(account);
   cout << "Account added\n";
 }
 
 void User::addSavingsAccount(int balance) {
   // Manualy allocate memory, to persist after function is finished
-  accounts.push_back(new SavingsAccount(accounts.size() + 1, name, balance));
+  Account* account = new SavingsAccount(accounts.size() + 1, name, balance);
+  account->addTransaction(balance, "Account opened", balance);
+  accounts.push_back(account);
   cout << "Account added\n";
 }
 
@@ -164,6 +143,7 @@ void User::loadAccounts() {
       while (getline(Accounts, accountsText) && !accountsText.empty() &&
              accountsText.rfind("Type:", 0) != 0) {
         Account::TransactionType t = parseTransactionLine(accountsText);
+
         account->addTransaction(t.amount, t.type, t.finalBalance);
       }
 

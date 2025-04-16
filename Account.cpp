@@ -6,7 +6,6 @@ Account::Account(int id, string ownerName, double balance) {
   this->ownerName = ownerName;
   this->transactionsCount = 0;
   this->transactions = new TransactionType[transactionsCount];
-  addTransaction(this->balance, "Account opened", getBalance());
 }
 
 Account::~Account() {

@@ -46,6 +46,11 @@
     "streambuf": "cpp",
     "typeinfo": "cpp",
     "chrono": "cpp",
-    "thread": "cpp"
+    "thread": "cpp",
+    "fstream": "cpp",
+    "ctime": "cpp",
+    "ratio": "cpp",
+    "sstream": "cpp",
+    "stop_token": "cpp"
   }
 }

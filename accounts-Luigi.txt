@@ -1,0 +1,11 @@
+Type: checking
+Balance: 120
+Transactions
+Amount: 120, Account opened, Final Balance: 120
+Type: savings
+Balance: 138.915
+Transactions
+Amount: 120, Account opened, Final Balance: 120
+Amount: 6.3, Interests, Final Balance: 126
+Amount: 6.615, Interests, Final Balance: 132.3
+Amount: 6.94575, Interests, Final Balance: 138.915

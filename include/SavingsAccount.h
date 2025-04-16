@@ -29,6 +29,8 @@ class SavingsAccount : public Account {
   void withdraw(double amount) override;
 
   void getDetails() override;
+
+  string getType() override;
 };
 
 #endif

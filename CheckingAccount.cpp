@@ -17,3 +17,5 @@ void CheckingAccount::getDetails() {
   cout << "Type: Checking Account" << endl;
   Account::getDetails();
 }
+
+string CheckingAccount::getType() { return "checking"; }

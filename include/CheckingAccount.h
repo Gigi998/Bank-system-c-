@@ -13,6 +13,8 @@ class CheckingAccount : public Account {
   void withdraw(double amount) override;
 
   void getDetails() override;
+
+  string getType() override;
 };
 
 #endif

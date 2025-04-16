@@ -7,6 +7,32 @@
 #include "./include/CheckingAccount.h"
 #include "./include/SavingsAccount.h"
 
+// Trim helper
+std::string trim(const std::string& str) {
+  size_t first = str.find_first_not_of(" \t\r\n");
+  size_t last = str.find_last_not_of(" \t\r\n");
+  return (first == std::string::npos) ? ""
+                                      : str.substr(first, (last - first + 1));
+}
+
+// Parse one transaction line
+Account::TransactionType parseTransactionLine(const std::string& line) {
+  Account::TransactionType t;
+  size_t amountPos = line.find("Amount:");
+  size_t amountEnd = line.find(",", amountPos);
+  string amountStr = line.substr(amountPos + 7, amountEnd - (amountPos + 7));
+  t.amount = std::stod(trim(amountStr));
+
+  size_t finalPos = line.find("Final Balance:");
+  string desc = line.substr(amountEnd + 1, finalPos - (amountEnd + 1));
+  t.type = trim(desc);
+
+  std::string finalStr = line.substr(finalPos + 14);
+  t.finalBalance = std::stod(trim(finalStr));
+
+  return t;
+}
+
 User::User(int id, string name) {
   this->id = id;
   this->name = name;
@@ -102,6 +128,8 @@ string User::getName() { return name; }
 void User::saveAccounts() {
   ofstream Accounts("accounts-" + getName() + ".txt");
   for (Account* accountPtr : accounts) {
+    Accounts << "Type: " << accountPtr->getType() << endl;
+
     accountPtr->save(Accounts);
   }
 
@@ -113,39 +141,36 @@ void User::loadAccounts() {
   ifstream Accounts("accounts-" + getName() + ".txt");
 
   while (getline(Accounts, accountsText)) {
-    // Get balance line
-    if (accountsText.rfind("Balance", 0) == 0) {
-      size_t start = accountsText.find(":") + 1;
+    if (accountsText.rfind("Type", 0) == 0) {
+      string typeStr = trim(accountsText.substr(5));
 
-      std::string balStr = accountsText.substr(start);
-
-      double balance = stod(balStr);
-
-      addCheckingAccount(balance);
+      Account* account = nullptr;
 
       getline(Accounts, accountsText);
-      if (accountsText == "Transactions") {
-        while (getline(Accounts, accountsText)) {
-          // Find "Amount:"
-          size_t amountPos = accountsText.find("Amount:");
-          size_t amountEnd = accountsText.find(",", amountPos);
-          std::string amountStr =
-              accountsText.substr(amountPos + 7, amountEnd - (amountPos + 7));
-          double amount = std::stod(amountStr);
 
-          size_t descStart = amountEnd + 1;
-          size_t finalPos = accountsText.find("Final Balance:");
-          std::string desc =
-              accountsText.substr(descStart, finalPos - descStart);
-          desc.erase(0, desc.find_first_not_of(" ,"));
-          desc.erase(desc.find_last_not_of(" ,") + 1);
-          string description = desc;
+      double balance =
+          stod(trim(accountsText.substr(accountsText.find(":") + 1)));
 
-          // Extract final balance
-          std::string finalStr = accountsText.substr(finalPos + 14);
-          finalStr.erase(0, finalStr.find_first_not_of(" "));
-          double finalBalance = std::stod(finalStr);
-        }
+      if (typeStr == "savings") {
+        account = new SavingsAccount(accounts.size() + 1, name, balance);
+      } else if (typeStr == "checking") {
+        account = new CheckingAccount(accounts.size() + 1, name, balance);
+      }
+
+      accounts.push_back(account);
+
+      getline(Accounts, accountsText);
+
+      while (getline(Accounts, accountsText) && !accountsText.empty() &&
+             accountsText.rfind("Type:", 0) != 0) {
+        Account::TransactionType t = parseTransactionLine(accountsText);
+        account->addTransaction(t.amount, t.type, t.finalBalance);
+      }
+
+      // If we just read a new Type line, rewind the loop back to it
+      if (accountsText.rfind("Type:", 0) == 0) {
+        Accounts.seekg(-static_cast<int>(accountsText.size()) - 1,
+                       std::ios_base::cur);
       }
     }
   }

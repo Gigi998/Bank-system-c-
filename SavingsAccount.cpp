@@ -42,6 +42,8 @@ void SavingsAccount::withdraw(double amount) {
   withdrawalCount++;
 }
 
+string SavingsAccount::getType() { return "savings"; }
+
 // PRIVATE
 void SavingsAccount::addInterests() {
   while (!stopThread) {
